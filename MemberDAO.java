@@ -52,9 +52,99 @@ public class MemberDAO {
 		return memberList;
 	}
 	
+	//로그인
+	public boolean login(String id, String pw) {
+		boolean check = false;
+		try {
+			conn = getConnection();
+			String sql = "select count(*) from member where member_id=? and member_pw=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, pw);
+			rs = pstmt.executeQuery();
+			if (rs.next() && rs.getInt(1) > 0) {
+				check = true;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(conn != null) {try {conn.close();} catch (Exception e) {}}
+			if(pstmt != null) {try {pstmt.close();} catch (Exception e) {}}
+			if(rs != null) {try {rs.close();} catch (Exception e) {}}
+		}
+		return check;
+	}
 	
+	//id중복검사
+	public boolean IdCheck(String id) {
+		boolean check = true;
+		try {
+			conn = getConnection();
+			String sql = "select count(*) from member where member_id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			if (rs.next() && rs.getInt(1) > 0) {
+				check = false;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(conn != null) {try {conn.close();} catch (Exception e) {}}
+			if(pstmt != null) {try {pstmt.close();} catch (Exception e) {}}
+			if(rs != null) {try {rs.close();} catch (Exception e) {}}
+		}
+		return check;
+	}
 	
+	//pw확인
+	public boolean pwCheck(String pw, String pwch) {
+		boolean check = false;
+		if(pw.equals(pwch))check = true;
+		return check;
+	}
 	
+	//이메일중복검사
+	public boolean emailCheck(String email) {
+		boolean check = true;
+		try {
+			conn = getConnection();
+			String sql = "select count(*) from member where member_email=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, email);
+			rs = pstmt.executeQuery();
+			if (rs.next() && rs.getInt(1) > 0) {
+				check = false;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(conn != null) {try {conn.close();} catch (Exception e) {}}
+			if(pstmt != null) {try {pstmt.close();} catch (Exception e) {}}
+			if(rs != null) {try {rs.close();} catch (Exception e) {}}
+		}
+		return check;
+	}
 	
+	//회원가입
+	public void insert(boolean check1, boolean check2, boolean check3, String id, String pw, String email, String name) {
+		if(check1==true && check2==true && check3==true) {
+			try {
+				conn = getConnection();
+				String sql = "insert into member values(0, ?, ?, ?, ?)";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, id);
+				pstmt.setString(2, pw);
+				pstmt.setString(3, name);
+				pstmt.setString(4, email);
+				pstmt.executeUpdate();
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				if(conn != null) {try {conn.close();} catch (Exception e) {}}
+				if(pstmt != null) {try {pstmt.close();} catch (Exception e) {}}
+			}
+		}
+	}
 	
 }
