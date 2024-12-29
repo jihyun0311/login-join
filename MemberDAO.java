@@ -128,22 +128,20 @@ public class MemberDAO {
 	
 	//회원가입
 	public void insert(boolean check1, boolean check2, boolean check3, String id, String pw, String email, String name) {
-		if(check1==true && check2==true && check3==true) {
-			try {
-				conn = getConnection();
-				String sql = "insert into member values(0, ?, ?, ?, ?)";
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, id);
-				pstmt.setString(2, pw);
-				pstmt.setString(3, name);
-				pstmt.setString(4, email);
-				pstmt.executeUpdate();
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				if(conn != null) {try {conn.close();} catch (Exception e) {}}
-				if(pstmt != null) {try {pstmt.close();} catch (Exception e) {}}
-			}
+		try {
+			conn = getConnection();
+			String sql = "insert into member values(0, ?, ?, ?, ?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, pw);
+			pstmt.setString(3, name);
+			pstmt.setString(4, email);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(conn != null) {try {conn.close();} catch (Exception e) {}}
+			if(pstmt != null) {try {pstmt.close();} catch (Exception e) {}}
 		}
 	}
 	
