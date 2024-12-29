@@ -76,7 +76,7 @@ public class MemberDAO {
 	}
 	
 	//id중복검사
-	public boolean IdCheck(String id) {
+	public boolean idCheck(String id) {
 		boolean check = true;
 		try {
 			conn = getConnection();
@@ -127,7 +127,7 @@ public class MemberDAO {
 	}
 	
 	//회원가입
-	public void insert(boolean check1, boolean check2, boolean check3, String id, String pw, String email, String name) {
+	public void insert(String id, String pw, String email, String name) {
 		try {
 			conn = getConnection();
 			String sql = "insert into member values(0, ?, ?, ?, ?)";
