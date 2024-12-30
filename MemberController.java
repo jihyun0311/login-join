@@ -20,7 +20,7 @@ public class MemberController {
 	@Autowired(required = true)
 	MemberDAO memberDAO;
 	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, String> login(@RequestParam String id, @RequestParam String pw){
 		Map<String, String> response = new LinkedHashMap<>();
@@ -34,7 +34,7 @@ public class MemberController {
 		return response;
 	}
 	
-	@RequestMapping(value = "/insert", method = RequestMethod.GET)
+	@RequestMapping(value = "/insert", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, String> insert(@RequestParam String id, String pw, String pwch, String name, String email){
 		Map<String, String> response = new LinkedHashMap<>();
