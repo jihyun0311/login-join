@@ -22,10 +22,12 @@ public class MemberController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, String> login(@RequestParam String id, @RequestParam String pw){
+    public Map<String, String> login(HttpServletRequest request){
 		Map<String, String> response = new LinkedHashMap<>();
-		response.put("id", id);
+	    	String id = request.getParameter("id");
+	    	String pw = request.getParameter("pw");
 		boolean check = memberDAO.login(id,  pw);
+	    	response.put("id", id);
 		if(check) {
 			response.put("로그인", "성공");
 		}else {
@@ -36,8 +38,13 @@ public class MemberController {
 	
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, String> insert(@RequestParam String id, String pw, String pwch, String name, String email){
+	public Map<String, String> insert(HttpServletRequest request){
 		Map<String, String> response = new LinkedHashMap<>();
+		String id = request.getParameter("id");
+	    	String pw = request.getParameter("pw");
+		String pwch = request.getParameter("pwch");
+	    	String name = request.getParameter("name");
+		String email = request.getParameter("email");
 		response.put("id", id);
 		boolean idCheck = memberDAO.idCheck(id);
 		boolean emailCheck = memberDAO.emailCheck(email);
