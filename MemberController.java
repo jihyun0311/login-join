@@ -20,14 +20,12 @@ public class MemberController {
 	@Autowired(required = true)
 	MemberDAO memberDAO;
 	
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, String> login(HttpServletRequest request){
+    public Map<String, String> login(@RequestParam String id, @RequestParam String pw){
 		Map<String, String> response = new LinkedHashMap<>();
-	    	String id = request.getParameter("id");
-	    	String pw = request.getParameter("pw");
+		response.put("id", id);
 		boolean check = memberDAO.login(id,  pw);
-	    	response.put("id", id);
 		if(check) {
 			response.put("로그인", "성공");
 		}else {
@@ -38,20 +36,15 @@ public class MemberController {
 	
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, String> insert(HttpServletRequest request){
+	public Map<String, String> insert(@RequestParam String id, String pw, String pwch, String name, String email){
 		Map<String, String> response = new LinkedHashMap<>();
-		String id = request.getParameter("id");
-	    	String pw = request.getParameter("pw");
-		String pwch = request.getParameter("pwch");
-	    	String name = request.getParameter("name");
-		String email = request.getParameter("email");
 		response.put("id", id);
 		boolean idCheck = memberDAO.idCheck(id);
 		boolean emailCheck = memberDAO.emailCheck(email);
 		if(!idCheck) {
 			response.put("실패", "아이디중복");
 			return response;
-		}else if(pw.equals(pwch)) {
+		}else if(!pw.equals(pwch)) {
 			response.put("실패", "비밀번호 불일치");
 			return response;
 		}else if(name==null || name.trim().isEmpty()) {
